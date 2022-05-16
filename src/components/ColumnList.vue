@@ -1,6 +1,6 @@
 <template>
-  <ul class="row">
-    <li class="col-4 mb-3" v-for="column in list" :key="column.id">
+  <div class="row">
+    <div class="col-4 mb-3" v-for="column in columenlist" :key="column.id">
       <div class="card h-100 shadow-sm">
         <div class="card-body text-center">
           <img class="rounded-circle border border-light w-25 y-3" :src="column.avatar" :alt="column.title">
@@ -9,17 +9,17 @@
           <a href="#" class="btn btn-outline-primary">进入专栏</a>
         </div>
       </div>
-    </li>
-  </ul>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { computed, defineComponent, PropType } from 'vue'
 
 export interface ColumnProps{
     id: number;
     title: string;
-    avatar: string;
+    avatar?: string;
     description: string;
 }
 
@@ -30,6 +30,17 @@ export default defineComponent({
       type: Array as PropType<ColumnProps[]>,
       required: true
     }
+  },
+  setup (props) {
+    const columenlist = computed(() => {
+      return props.list.map(column => {
+        if (!column.avatar) {
+          column.avatar = 'https://x0.ifengimg.com/ucms/2021_50/ECC12A98199F718A8386B0B3D761F8FD88B5C660_size304_w1280_h701.jpg'
+        }
+        return column
+      })
+    })
+    return { columenlist }
   }
 })
 </script>

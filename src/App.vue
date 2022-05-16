@@ -31,7 +31,7 @@ const testdata: ColumnProps[] = [
   {
     id: 4,
     title: 'testzhuanlan',
-    avatar: 'https://cdn4.buysellads.net/uu/1/81016/1609783170-authentic-260x200-variation-1.jpg',
+    avatar: '',
     description: 'zhuanlan de miaoshu'
   }
 

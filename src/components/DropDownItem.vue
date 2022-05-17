@@ -2,7 +2,7 @@
   <li class="dropdown-option"
       :class="{'is-disabled': disabled}"
   >
-  <slot></slot>
+    <slot></slot>
   </li>
 </template>
 

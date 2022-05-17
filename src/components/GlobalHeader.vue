@@ -7,7 +7,11 @@
     </ul>
     <ul v-else class="list-inline mb-0">
       <li class="list-inline-item">
-        <drop-down :title="`你好 ${user.name}`"></drop-down>
+        <drop-down :title="`你好 ${user.name}`">
+          <drop-down-item><a href="#" class="dropdown-item">新建文章</a></drop-down-item>
+          <drop-down-item :disabled="true"><a href="#" class="dropdown-item">编辑资料</a></drop-down-item>
+          <drop-down-item><a href="#" class="dropdown-item">退出登陆</a></drop-down-item>
+        </drop-down>
       </li>
     </ul>
   </nav>
@@ -16,6 +20,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import DropDown from './DropDown.vue'
+import DropDownItem from './DropDownItem.vue'
 
 export interface UserProps{
   isLogin: boolean
@@ -26,7 +31,7 @@ export interface UserProps{
 export default defineComponent({
   name: 'GlobalHeader',
   components: {
-    DropDown
+    DropDown, DropDownItem
   },
   props: {
     user: {

@@ -17,6 +17,8 @@
         <input type="password" class="form-control" id="exampleInputPassword1">
       </div>
     </form>
+    <validate-input :rules="emailRules"></validate-input>
+    <validate-input :rules="emailRules"></validate-input>
   </div>
 </template>
 
@@ -26,6 +28,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import './assets/css/base.css'
 import ColumnList, { ColumnProps } from './components/ColumnList.vue'
 import GlobalHeader, { UserProps } from './components/GlobalHeader.vue'
+import validateInput, { RulesProp } from './components/ValidateInput.vue'
 
 const currentUser: UserProps = {
   isLogin: true,
@@ -63,15 +66,21 @@ export default defineComponent({
   name: 'App',
   components: {
     ColumnList,
-    GlobalHeader
+    GlobalHeader,
+    validateInput
   },
   setup () {
+    const emailRules: RulesProp = [
+      { type: 'required', message: '电子邮箱地址不能为空' },
+      { type: 'email', message: '请输入正确的电子邮箱格式' }
+    ]
     const emailReg = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
     const emailRef = reactive({
       val: '',
       error: false,
       message: ''
     })
+
     const validateEmail = () => {
       if (emailRef.val.trim() === '') {
         emailRef.error = true
@@ -85,7 +94,8 @@ export default defineComponent({
       list: testdata,
       emailRef,
       validateEmail,
-      currentUser
+      currentUser,
+      emailRules
     }
   }
 })

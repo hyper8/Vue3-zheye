@@ -17,7 +17,10 @@
         <input type="password" class="form-control" id="exampleInputPassword1">
       </div>
     </form>
-    <validate-input :rules="emailRules"></validate-input>
+    <div class="mb-3">
+      <label class="form-label">邮箱地址</label>
+      <validate-input :rules="emailRules"></validate-input>
+    </div>
     <validate-input :rules="emailRules"></validate-input>
   </div>
 </template>

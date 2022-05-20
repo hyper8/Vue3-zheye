@@ -23,17 +23,17 @@
     </validate-form>
     <div class="mb-3">
       <label class="form-label">邮箱地址</label>
-      <validate-input :rules="emailRules" type="text" v-model="emailval" placeholder="第二版请输入内容1"></validate-input>
+      <validate-input :rules="emailRules" type="text" v-model="emailVal" placeholder="第二版请输入内容1"></validate-input>
     </div>
     <div class="mb-3">
       <label class="form-label">密码</label>
-      <validate-input :rules="emailRules" type="password" placeholder="第二版请输入内容2"></validate-input>
+      <validate-input :rules="pwdRules" type="password" v-model="passwordVal" placeholder="第二版请输入内容2"></validate-input>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import './assets/css/base.css'
 import ColumnList, { ColumnProps } from './components/ColumnList.vue'
@@ -72,6 +72,9 @@ const testdata: ColumnProps[] = [
     description: 'zhuanlan de miaoshu'
   }
 ]
+// const inputRef = ref<any>()
+const emailVal = ref('100@w.com')
+const passwordVal = ref('200')
 
 export default defineComponent({
   name: 'App',
@@ -85,6 +88,9 @@ export default defineComponent({
     const emailRules: RulesProp = [
       { type: 'required', message: '电子邮箱地址不能为空' },
       { type: 'email', message: '请输入正确的电子邮箱格式' }
+    ]
+    const pwdRules: RulesProp = [
+      { type: 'required', message: '密码不能为空' }
     ]
     const emailReg = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
     const emailRef = reactive({
@@ -110,7 +116,10 @@ export default defineComponent({
       validateEmail,
       currentUser,
       emailRules,
-      onFormSubmit
+      pwdRules,
+      onFormSubmit,
+      emailVal,
+      passwordVal
     }
   }
 })

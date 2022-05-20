@@ -3,8 +3,9 @@
     <input
       class="form-control"
       :class="{'is-invalid': inputRef.error}"
-      v-model="inputRef.val"
+      :value="inputRef.val"
       @blur="validateInput"
+      @input="updateValue"
       v-bind="$attrs"
     >
     <span v-if="inputRef.error" class="invalid-feedback">{{inputRef.message}}</span>
@@ -12,7 +13,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, PropType } from 'vue'
+import { defineComponent, reactive, PropType, onMounted } from 'vue'
+import { emitter } from './ValidateForm.vue'
 
 const emailReg = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 interface RuleProp {
@@ -23,14 +25,23 @@ export type RulesProp = RuleProp[]
 export default defineComponent({
   inheritAttrs: false,
   props: {
-    rules: Array as PropType<RulesProp>
+    rules: Array as PropType<RulesProp>,
+    modelValue: String
   },
-  setup (props) {
+  setup (props, context) {
+    onMounted(() => {
+      emitter.emit('form-item-created', inputRef.val)
+    })
     const inputRef = reactive({
-      val: '',
+      val: props.modelValue || '',
       error: false,
       message: ''
     })
+    const updateValue = (e: KeyboardEvent) => {
+      const targetValue = (e.target as HTMLInputElement).value
+      inputRef.val = targetValue
+      context.emit('update:modalValue', targetValue)
+    }
     const validateInput = () => {
       if (props.rules) {
         const allPassed = props.rules.every(rule => {
@@ -51,7 +62,7 @@ export default defineComponent({
         inputRef.error = !allPassed
       }
     }
-    return { inputRef, validateInput }
+    return { inputRef, validateInput, updateValue }
   }
 })
 </script>

@@ -2,7 +2,7 @@
   <div id="app" class="container">
     <global-header :user="currentUser"></global-header>
     <column-list :list="list"></column-list>
-    <form action="">
+    <validate-form @form-submit="onFormSubmit">
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">邮箱地址</label>
         <input
@@ -17,10 +17,13 @@
         <label for="exampleInputPassword1" class="form-label">密码</label>
         <input type="password" class="form-control" id="exampleInputPassword1" placeholder="第一版请输入内容">
       </div>
-    </form>
+      <template v-slot:submit>
+        <span class="btn btn-danger">Submit</span>
+      </template>
+    </validate-form>
     <div class="mb-3">
       <label class="form-label">邮箱地址</label>
-      <validate-input :rules="emailRules" type="text" placeholder="第二版请输入内容1"></validate-input>
+      <validate-input :rules="emailRules" type="text" v-model="emailval" placeholder="第二版请输入内容1"></validate-input>
     </div>
     <div class="mb-3">
       <label class="form-label">密码</label>
@@ -35,7 +38,8 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import './assets/css/base.css'
 import ColumnList, { ColumnProps } from './components/ColumnList.vue'
 import GlobalHeader, { UserProps } from './components/GlobalHeader.vue'
-import validateInput, { RulesProp } from './components/ValidateInput.vue'
+import ValidateInput, { RulesProp } from './components/ValidateInput.vue'
+import ValidateForm from './components/ValidateForm.vue'
 
 const currentUser: UserProps = {
   isLogin: true,
@@ -74,7 +78,8 @@ export default defineComponent({
   components: {
     ColumnList,
     GlobalHeader,
-    validateInput
+    ValidateInput,
+    ValidateForm
   },
   setup () {
     const emailRules: RulesProp = [
@@ -96,12 +101,16 @@ export default defineComponent({
         emailRef.message = 'should be valid email'
       }
     }
+    const onFormSubmit = (result: boolean) => {
+      console.log('result', result)
+    }
     return {
       list: testdata,
       emailRef,
       validateEmail,
       currentUser,
-      emailRules
+      emailRules,
+      onFormSubmit
     }
   }
 })

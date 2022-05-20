@@ -9,19 +9,23 @@
           type="text" class="form-control" id="exampleInputEmail1"
           v-model="emailRef.val"
           @blur="validateEmail"
+          placeholder="第一版请输入内容"
         >
         <div class="form-text" v-if="emailRef.error">{{emailRef.message}}</div>
       </div>
       <div class="mb-3">
         <label for="exampleInputPassword1" class="form-label">密码</label>
-        <input type="password" class="form-control" id="exampleInputPassword1">
+        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="第一版请输入内容">
       </div>
     </form>
     <div class="mb-3">
       <label class="form-label">邮箱地址</label>
-      <validate-input :rules="emailRules"></validate-input>
+      <validate-input :rules="emailRules" type="text" placeholder="第二版请输入内容1"></validate-input>
     </div>
-    <validate-input :rules="emailRules"></validate-input>
+    <div class="mb-3">
+      <label class="form-label">密码</label>
+      <validate-input :rules="emailRules" type="password" placeholder="第二版请输入内容2"></validate-input>
+    </div>
   </div>
 </template>
 
@@ -83,7 +87,6 @@ export default defineComponent({
       error: false,
       message: ''
     })
-
     const validateEmail = () => {
       if (emailRef.val.trim() === '') {
         emailRef.error = true
